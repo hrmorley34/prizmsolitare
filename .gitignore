@@ -1,0 +1,5 @@
+build/
+*.bin
+*.g3a
+
+__pycache__
