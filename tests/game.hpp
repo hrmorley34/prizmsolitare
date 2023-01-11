@@ -4,6 +4,8 @@
 
 TEST_CASE("Game can", "[Game]")
 {
+    DefineCardDeck();
+
     Game game = Game();
 
     for (int i = 0; i < COLUMN_COUNT; i++)

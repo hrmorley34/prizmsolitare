@@ -4,6 +4,8 @@
 
 TEST_CASE("Card queue stores Cards", "[CardLL]")
 {
+    DefineCardDeck();
+
     CardLL queue = CardLL();
     queue.PushRight(Card((Suit)0, (Rank)1));
     queue.PushRight(Card((Suit)1, (Rank)13));
@@ -95,14 +97,18 @@ TEST_CASE("Card queue stores Cards", "[CardLL]")
 
     SECTION("fillcarddeck works")
     {
-        REQUIRE(queue.length() == 4);
+        while (!queue.empty())
+            queue.PopLeft();
+        REQUIRE(queue.length() == 0);
         FillCardDeck(&queue);
-        REQUIRE(queue.length() == 4 + 52);
+        REQUIRE(queue.length() == 52);
     }
 }
 
 TEST_CASE("Card stack stores Cards", "[Card]")
 {
+    DefineCardDeck();
+
     CardLL stack = CardLL();
     stack.PushLeft(Card((Suit)0, (Rank)1));
     stack.PushLeft(Card((Suit)1, (Rank)13));

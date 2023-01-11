@@ -142,7 +142,13 @@ public:
         int length = this->length();
         for (int i = 0; i < SHUFFLE_ITERATIONS; i++)
         {
-            this->PushRight(this->PopAt(sys_rand() % (length - 1)));
+            this->PushRight(this->PopAt(
+#ifdef __sh__
+                sys_rand()
+#else
+                rand()
+#endif
+                % (length - 1)));
         }
     }
 };
