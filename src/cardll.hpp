@@ -153,22 +153,16 @@ public:
     }
 };
 
-void DefineCardDeck()
+void FillCardDeck(CardLL *cs)
 {
     for (uint8_t i = 0; i < SUIT_COUNT; i++)
     {
         for (uint8_t j = 1; j <= 13; j++)
         {
-            pointers[i * 13 + j - 1] = Card((Suit)i, (Rank)j);
+            Card c = Card((Suit)i, (Rank)j);
+            pointers[c.GetPIndex()] = CardLLPointer(c);
+            cs->PushRight(pointers[c.GetPIndex()].card);
         }
-    }
-}
-
-void FillCardDeck(CardLL *cs)
-{
-    for (uint8_t i = 0; i < 52; i++)
-    {
-        cs->PushRight(pointers[i].card);
     }
 }
 

@@ -4,8 +4,6 @@
 
 TEST_CASE("Card queue stores Cards", "[CardLL]")
 {
-    DefineCardDeck();
-
     CardLL queue = CardLL();
     queue.PushRight(Card((Suit)0, (Rank)1));
     queue.PushRight(Card((Suit)1, (Rank)13));
@@ -107,8 +105,6 @@ TEST_CASE("Card queue stores Cards", "[CardLL]")
 
 TEST_CASE("Card stack stores Cards", "[Card]")
 {
-    DefineCardDeck();
-
     CardLL stack = CardLL();
     stack.PushLeft(Card((Suit)0, (Rank)1));
     stack.PushLeft(Card((Suit)1, (Rank)13));

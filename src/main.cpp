@@ -22,7 +22,6 @@ int main(void)
     setup();
 
     sys_srand(clock());
-    DefineCardDeck();
     Game g = Game();
     Controls c = Controls(&g);
 
