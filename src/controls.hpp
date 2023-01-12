@@ -27,7 +27,7 @@ private:
     }
 
 public:
-    Controls(Game *game)
+    Controls(Game *const game)
     {
         this->game = game;
 
@@ -35,14 +35,16 @@ public:
         sel = CardSelection(PILE_COLUMN, 1);
     }
 
-    void ClearScreen()
+    void ClearScreen() const
     {
         DrawBackground(0, LCD_HEIGHT_PX, 0, LCD_WIDTH_PX);
     }
 
-    void DrawScreenTop()
+    void DrawScreenTop() const
     {
-        DrawBackground(TOP_Y - MARGIN / 2, CARD_HEIGHT + MARGIN + 1, PILE_X - MARGIN / 2, GAME_WIDTH + MARGIN);
+        DrawBackground(
+            TOP_Y - MARGIN / 2, CARD_HEIGHT + MARGIN + 1,
+            PILE_X - MARGIN / 2, GAME_WIDTH + MARGIN);
 
         if (!game->pile.empty())
             DrawCardBack(PILE_X, TOP_Y);
@@ -50,7 +52,9 @@ public:
         if (discardcount > DEAL_COUNT)
             discardcount = DEAL_COUNT;
         for (int c = 0; c < discardcount; c++)
-            DrawCard(game->pilediscard.PeekAt(discardcount - c - 1), PILEDISCARD_X(c), TOP_Y);
+            DrawCard(
+                game->pilediscard.PeekAt(discardcount - c - 1),
+                PILEDISCARD_X(c), TOP_Y);
         for (int suit = 0; suit < SUIT_COUNT; suit++)
         {
             Card c = game->suits[suit].Peek();
@@ -63,7 +67,7 @@ public:
         DrawScreenTopShine(sel);
     }
 
-    void DrawScreenTopShine(CardSelection sel)
+    void DrawScreenTopShine(CardSelection sel) const
     {
         if (sel.col >= 0)
             return;
@@ -82,12 +86,14 @@ public:
             DrawCardShine(PILE_X, TOP_Y);
     }
 
-    void DrawScreenCol(int col)
+    void DrawScreenCol(int col) const
     {
 #define cold game->columns[col]
         const int colx = COLUMN_X(col);
 
-        DrawBackground(COLUMNS_TOP_Y - MARGIN / 2, COLUMNS_HEIGHT + MARGIN, colx - MARGIN / 2, CARD_WIDTH + MARGIN);
+        DrawBackground(
+            COLUMNS_TOP_Y - MARGIN / 2, COLUMNS_HEIGHT + MARGIN,
+            colx - MARGIN / 2, CARD_WIDTH + MARGIN);
 
         const int unlen = cold.unrevealedlength();
         const int relen = cold.revealedlength();
@@ -106,7 +112,9 @@ public:
         for (int c = 0; c < unlen; c++)
             DrawCardBack(colx, COLUMN_CARD_Y(c, unoff, 0, reoff));
         for (int c = 0; c < shinefirst; c++)
-            DrawCard(cold.PeekAt(relen - c - 1), colx, COLUMN_CARD_Y(unlen, unoff, c, reoff));
+            DrawCard(
+                cold.PeekAt(relen - c - 1),
+                colx, COLUMN_CARD_Y(unlen, unoff, c, reoff));
         for (int c = shinefirst; c < relen; c++)
         {
             const int y = COLUMN_CARD_Y(unlen, unoff, c, reoff);
@@ -119,14 +127,14 @@ public:
 #undef cold
     }
 
-    void DrawScreen()
+    void DrawScreen() const
     {
         DrawScreenTop();
         for (int col = 0; col < COLUMN_COUNT; col++)
             DrawScreenCol(col);
     }
 
-    void MoveSelection(int dx, int dy)
+    void MoveSelection(const int dx, const int dy)
     {
         // const int prev_col = sel.col;
 

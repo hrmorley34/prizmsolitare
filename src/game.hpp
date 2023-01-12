@@ -51,9 +51,13 @@ public:
         }
     }
 
-    bool TryMoveToColumn(int from, int count, int to, bool checkStacks)
+    bool TryMoveToColumn(
+        const int from, const int count,
+        const int to, const bool checkStacks)
     {
-        if (from < 0 || from >= COLUMN_COUNT || to < 0 || to >= COLUMN_COUNT || from == to || count <= 0)
+        if (from < 0 || from >= COLUMN_COUNT ||
+            to < 0 || to >= COLUMN_COUNT ||
+            from == to || count <= 0)
             return false;
 #define srccol columns[from]
 #define destcol columns[to]
@@ -72,7 +76,7 @@ public:
 #undef destcol
     }
 
-    bool TryMovePileToColumn(int column, bool checkStacks)
+    bool TryMovePileToColumn(const int column, const bool checkStacks)
     {
         if (column < 0 || column >= COLUMN_COUNT)
             return false;
@@ -90,19 +94,22 @@ public:
 #undef destcol
     }
 
-    static bool CanStackOn(Card base, Card top)
+    static bool CanStackOn(const Card base, const Card top)
     {
-        return top.NonNull() && ((!base.NonNull() && top.GetRank() == 13) || (base.GetColour() != top.GetColour() && base.GetRank() == top.GetRank() + 1));
+        return top.NonNull() &&
+               ((!base.NonNull() && top.GetRank() == 13) ||
+                (base.GetColour() != top.GetColour() &&
+                 base.GetRank() == top.GetRank() + 1));
     }
 
-    bool CanStackOnCol(Card top, int column)
+    bool CanStackOnCol(const Card top, const int column)
     {
         if (column < 0 || column >= COLUMN_COUNT)
             return false;
         return CanStackOn(columns[column].Peek(), top);
     }
 
-    bool CanStackOnSuit(Card top, Suit suit)
+    bool CanStackOnSuit(const Card top, const Suit suit)
     {
         if (suit < 0 || suit >= SUIT_COUNT)
             return false;
@@ -111,7 +118,7 @@ public:
         return suits[suit].Peek().GetRank() == top.GetRank() + 1;
     }
 
-    CardColumn *GetSelectionColumn(CardSelection sel)
+    CardColumn *GetSelectionColumn(const CardSelection sel)
     {
         if (sel.col >= COLUMN_COUNT)
             return nullptr;
@@ -120,7 +127,7 @@ public:
         return nullptr;
     }
 
-    CardLL *GetSelectionLL(CardSelection sel)
+    CardLL *GetSelectionLL(const CardSelection sel)
     {
         if (sel.col >= 0)
             return nullptr;
@@ -217,7 +224,8 @@ public:
             DealToPile();
             return true;
         }
-        if (src.col == PILEDISCARD_COLUMN || (src.col >= 0 && src.col < COLUMN_COUNT && src.depth == 1))
+        if (src.col == PILEDISCARD_COLUMN ||
+            (src.col >= 0 && src.col < COLUMN_COUNT && src.depth == 1))
         {
             Card c;
             if (src.col == PILEDISCARD_COLUMN)

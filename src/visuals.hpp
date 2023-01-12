@@ -36,7 +36,8 @@
 #define TOP_Y MARGIN
 
 #define COLUMNS_TOP_Y (TOP_Y + CARD_HEIGHT + MARGIN)
-#define COLUMN_CARD_Y(unrevealed, unoffset, revealed, reoffset) (COLUMNS_TOP_Y + (unoffset) * (unrevealed) + (reoffset) * (revealed))
+#define COLUMN_CARD_Y(unrevealed, unoffset, revealed, reoffset) \
+    (COLUMNS_TOP_Y + (unoffset) * (unrevealed) + (reoffset) * (revealed))
 #define COLUMNS_BOTTOM_Y (LCD_HEIGHT_PX - MARGIN)
 #define COLUMNS_HEIGHT (COLUMNS_BOTTOM_Y - COLUMNS_TOP_Y)
 
@@ -44,7 +45,9 @@
 #error Screen to small to fit cards in columns
 #endif
 
-void calculate_squash(int unrevealed, int revealed, int *unoffset, int *reoffset)
+void calculate_squash(
+    const int unrevealed, const int revealed,
+    int *const unoffset, int *const reoffset)
 {
     *unoffset = CARD_UNREVEALED_OFFSET_Y;
     *reoffset = CARD_REVEALED_OFFSET_Y;

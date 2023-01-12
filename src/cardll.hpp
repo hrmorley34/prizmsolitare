@@ -23,7 +23,7 @@ public:
     //     // DeleteQueuePointers(head);
     // }
 
-    void PushLeft(Card card)
+    void PushLeft(const Card card)
     {
         // head = new CardLLPointer(card, head);
         CardLLPointer *lasthead = head;
@@ -34,7 +34,7 @@ public:
             tail = head;
     }
 
-    void PushRight(Card card)
+    void PushRight(const Card card)
     {
         if (head == nullptr)
         {
@@ -67,7 +67,7 @@ public:
         return c;
     }
 
-    Card PopAt(int index)
+    Card PopAt(const int index)
     {
         if (index < 0 || head == nullptr)
             return Card();
@@ -89,14 +89,14 @@ public:
         return c;
     }
 
-    Card Peek()
+    Card Peek() const
     {
         if (head == nullptr)
             return Card();
         return head->card;
     }
 
-    Card PeekAt(int index)
+    Card PeekAt(const int index) const
     {
         CardLLPointer *p = GetAtIndex(head, index);
         if (p == nullptr)
@@ -104,7 +104,7 @@ public:
         return p->card;
     }
 
-    void MoveMany(int count, CardLL *dest)
+    void MoveMany(int count, CardLL *const dest)
     {
         if (count <= 0)
             return;
@@ -119,7 +119,7 @@ public:
         this->head = new_head;
     }
 
-    int length()
+    int length() const
     {
         int i = 0;
         CardLLPointer *p = head;
@@ -131,7 +131,7 @@ public:
         return i;
     }
 
-    bool empty()
+    bool empty() const
     {
         return head == nullptr;
     }
@@ -153,7 +153,7 @@ public:
     }
 };
 
-void FillCardDeck(CardLL *cs)
+void FillCardDeck(CardLL *const cs)
 {
     for (uint8_t i = 0; i < SUIT_COUNT; i++)
     {

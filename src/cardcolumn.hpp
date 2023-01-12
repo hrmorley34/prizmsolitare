@@ -13,12 +13,12 @@ private:
 public:
     CardColumn() {}
 
-    void PushLeft(Card card)
+    void PushLeft(const Card card)
     {
         revealed.PushLeft(card);
     }
 
-    void PushUnrevealed(Card card)
+    void PushUnrevealed(const Card card)
     {
         unrevealed.PushLeft(card);
     }
@@ -56,31 +56,31 @@ public:
         return c;
     }
 
-    Card Peek()
+    Card Peek() const
     {
-        if (revealed.empty())
-            Reveal();
+        // if (revealed.empty())
+        //     Reveal();
         return revealed.Peek();
     }
 
-    Card PeekAt(int index)
+    Card PeekAt(const int index) const
     {
-        if (revealed.empty())
-            Reveal();
+        // if (revealed.empty())
+        //     Reveal();
         return revealed.PeekAt(index);
     }
 
-    int revealedlength()
+    int revealedlength() const
     {
         return revealed.length();
     }
 
-    int unrevealedlength()
+    int unrevealedlength() const
     {
         return unrevealed.length();
     }
 
-    bool empty()
+    bool empty() const
     {
         return revealed.empty() && unrevealed.empty();
     }

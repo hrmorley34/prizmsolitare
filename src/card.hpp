@@ -18,7 +18,7 @@ enum Colour : uint8_t
     Black = 1
 };
 
-Colour GetSuitColour(Suit suit)
+Colour GetSuitColour(const Suit suit)
 {
     return (Colour)(suit >> 1);
 }
@@ -30,23 +30,23 @@ struct Card
 private:
     uint8_t ivalue; // 0bssrrrr for suit (0-3), rank (1-13)
 
-    void SetInternal(Suit suit, Rank rank)
+    void SetInternal(const Suit suit, const Rank rank)
     {
         ivalue = (uint8_t)suit << 4 | (uint8_t)rank;
     }
 
 public:
     Card() : ivalue(0) {}
-    Card(Suit suit, Rank rank)
+    Card(const Suit suit, const Rank rank)
     {
         SetInternal(suit, rank);
     }
 
-    bool operator==(Card c)
+    bool operator==(const Card c) const
     {
         return ivalue == c.ivalue;
     }
-    bool operator!=(Card c)
+    bool operator!=(const Card c) const
     {
         return !(*this == c);
     }

@@ -26,7 +26,7 @@ public:
         depth = 0;
     }
 
-    CardSelection(int col, int depth)
+    CardSelection(const int col, const int depth)
     {
         this->col = col;
         this->depth = depth;
