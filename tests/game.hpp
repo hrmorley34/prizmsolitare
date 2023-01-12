@@ -93,58 +93,65 @@ TEST_CASE("Game can", "[Game]")
 
     SECTION("TryMoveToColumn checks function correctly")
     {
+        for (int i = 0; i < COLUMN_COUNT; i++)
+        {
+            while (!game.columns[i].empty())
+            {
+                game.columns[i].PopLeft();
+            }
+        }
+
         game.columns[0].PushLeft(Card(Hearts, 5));
         game.columns[1].PushLeft(Card(Spades, 6));
-        REQUIRE(game.columns[0].revealedlength() == 2);
-        REQUIRE(game.columns[1].revealedlength() == 2);
-        REQUIRE(game.TryMoveToColumn(0, 1, 1, true));
         REQUIRE(game.columns[0].revealedlength() == 1);
-        REQUIRE(game.columns[1].revealedlength() == 3);
+        REQUIRE(game.columns[1].revealedlength() == 1);
+        REQUIRE(game.TryMoveToColumn(0, 1, 1, true));
+        REQUIRE(game.columns[0].revealedlength() == 0);
+        REQUIRE(game.columns[1].revealedlength() == 2);
         REQUIRE((game.columns[1].PeekAt(0) == Card(Hearts, 5)));
         REQUIRE((game.columns[1].PeekAt(1) == Card(Spades, 6)));
 
-        game.columns[4].PushLeft(game.pile.PopLeft());
+        game.columns[4].PushLeft(Card(Hearts, 12));
         game.columns[4].PushLeft(Card(Spades, 11));
-        game.columns[4].PushLeft(game.pile.PopLeft());
-        game.columns[4].PushLeft(game.pile.PopLeft());
+        game.columns[4].PushLeft(Card(Hearts, 10));
+        game.columns[4].PushLeft(Card(Clubs, 9));
         game.columns[3].PushLeft(Card(Diamonds, 12));
 
-        REQUIRE(game.columns[4].revealedlength() == 5);
-        REQUIRE(game.columns[3].revealedlength() == 2);
+        REQUIRE(game.columns[4].revealedlength() == 4);
+        REQUIRE(game.columns[3].revealedlength() == 1);
         REQUIRE(game.TryMoveToColumn(4, 3, 3, true));
-        REQUIRE(game.columns[4].revealedlength() == 2);
-        REQUIRE(game.columns[3].revealedlength() == 5);
+        REQUIRE(game.columns[4].revealedlength() == 1);
+        REQUIRE(game.columns[3].revealedlength() == 4);
 
         game.columns[6].PushLeft(Card(Clubs, 4));
-        for (int i = 0; i < 3; i++)
-        {
-            game.columns[6].PushLeft(game.pile.PopLeft());
-        }
+        game.columns[6].PushLeft(Card(Diamonds, 3));
+        game.columns[6].PushLeft(Card(Spades, 2));
+        game.columns[6].PushLeft(Card(Hearts, 1));
         game.columns[5].PushLeft(Card(Diamonds, 5));
 
-        REQUIRE(game.columns[6].revealedlength() == 5);
-        REQUIRE(game.columns[5].revealedlength() == 2);
+        REQUIRE(game.columns[6].revealedlength() == 4);
+        REQUIRE(game.columns[5].revealedlength() == 1);
         REQUIRE(game.TryMoveToColumn(6, 4, 5, true));
-        REQUIRE(game.columns[6].revealedlength() == 1);
-        REQUIRE(game.columns[5].revealedlength() == 6);
+        REQUIRE(game.columns[6].revealedlength() == 0);
+        REQUIRE(game.columns[5].revealedlength() == 5);
 
         REQUIRE((game.columns[5].PeekAt(3) == Card(Clubs, 4)));
         game.columns[2].PushLeft(Card(Spades, 5));
 
-        REQUIRE(game.columns[5].revealedlength() == 6);
-        REQUIRE(game.columns[2].revealedlength() == 2);
+        REQUIRE(game.columns[5].revealedlength() == 5);
+        REQUIRE(game.columns[2].revealedlength() == 1);
         REQUIRE(!game.TryMoveToColumn(5, 4, 2, true));
-        REQUIRE(game.columns[5].revealedlength() == 6);
-        REQUIRE(game.columns[2].revealedlength() == 2);
+        REQUIRE(game.columns[5].revealedlength() == 5);
+        REQUIRE(game.columns[2].revealedlength() == 1);
 
         REQUIRE((game.columns[5].PeekAt(3) == Card(Clubs, 4)));
         game.columns[2].PopLeft();
         game.columns[2].PushLeft(Card(Diamonds, 4));
 
-        REQUIRE(game.columns[5].revealedlength() == 6);
-        REQUIRE(game.columns[2].revealedlength() == 2);
+        REQUIRE(game.columns[5].revealedlength() == 5);
+        REQUIRE(game.columns[2].revealedlength() == 1);
         REQUIRE(!game.TryMoveToColumn(5, 4, 2, true));
-        REQUIRE(game.columns[5].revealedlength() == 6);
-        REQUIRE(game.columns[2].revealedlength() == 2);
+        REQUIRE(game.columns[5].revealedlength() == 5);
+        REQUIRE(game.columns[2].revealedlength() == 1);
     }
 }

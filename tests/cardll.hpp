@@ -101,6 +101,24 @@ TEST_CASE("Card queue stores Cards", "[CardLL]")
         FillCardDeck(&queue);
         REQUIRE(queue.length() == 52);
     }
+
+    SECTION("shufflecards works for 4 cards")
+    {
+        REQUIRE(queue.length() == 4);
+        queue.ShuffleCards();
+        REQUIRE(queue.length() == 4);
+    }
+
+    SECTION("shufflecards works on a full deck")
+    {
+        while (!queue.empty())
+            queue.PopLeft();
+        REQUIRE(queue.length() == 0);
+        FillCardDeck(&queue);
+        REQUIRE(queue.length() == 52);
+        queue.ShuffleCards();
+        REQUIRE(queue.length() == 52);
+    }
 }
 
 TEST_CASE("Card stack stores Cards", "[Card]")
