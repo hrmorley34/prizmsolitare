@@ -1,5 +1,6 @@
 #include "card.hpp"
 #include "cardll.hpp"
+#include "savedata.hpp"
 
 #ifndef CARDCOLUMN_H
 #define CARDCOLUMN_H
@@ -83,6 +84,26 @@ public:
     bool empty() const
     {
         return revealed.empty() && unrevealed.empty();
+    }
+
+    int WriteToArray(SaveData *const arr) const
+    {
+        int length = unrevealed.WriteToArray(arr);
+        length += revealed.WriteToArray(arr + length);
+        return length;
+    }
+
+    int GetWriteLength() const
+    {
+        return unrevealed.GetWriteLength() +
+               revealed.GetWriteLength();
+    }
+
+    int ReadFromArray(const SaveData *const arr)
+    {
+        int length = unrevealed.ReadFromArray(arr);
+        length += revealed.ReadFromArray(arr + length);
+        return length;
     }
 };
 

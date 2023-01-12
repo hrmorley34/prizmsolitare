@@ -1,8 +1,9 @@
 #include "catch2/catch_amalgamated.hpp"
 
 #include "../src/game.hpp"
+#include "../src/save.hpp"
 
-TEST_CASE("Game can", "[Game]")
+TEST_CASE("Game functions", "[Game]")
 {
     Game game = Game();
 
@@ -153,5 +154,57 @@ TEST_CASE("Game can", "[Game]")
         REQUIRE(!game.TryMoveToColumn(5, 4, 2, true));
         REQUIRE(game.columns[5].revealedlength() == 5);
         REQUIRE(game.columns[2].revealedlength() == 1);
+    }
+}
+
+TEST_CASE("Game can be stored and read", "[Game]")
+{
+    Game game = Game();
+    SaveData savebuffer[SAVESTATE_LEN];
+
+    SECTION("GetWriteLength is correct")
+    {
+        REQUIRE(game.GetWriteLength() == SAVESTATE_LEN);
+    }
+
+    SECTION("WriteToArray has correct length")
+    {
+        for (int i = 0; i < SUIT_COUNT; i++)
+        {
+            // no cards
+            REQUIRE(game.suits[i].WriteToArray(savebuffer) == 1);
+            REQUIRE(savebuffer[0].value == 0);
+        }
+
+        for (int i = 0; i < COLUMN_COUNT; i++)
+        {
+            // header length 2 + `i` unrevealed cards + 1 revealed card
+            REQUIRE(game.columns[i].WriteToArray(savebuffer) == 2 + i + 1);
+            REQUIRE(savebuffer[0].value == i);
+            REQUIRE(savebuffer[i + 1].value == 1);
+        }
+
+        REQUIRE(game.WriteToArray(savebuffer) == SAVESTATE_LEN);
+    }
+
+    SECTION("ReadToArray works on written input")
+    {
+        for (int i = 0; i < SUIT_COUNT; i++)
+        {
+            // no cards
+            REQUIRE(game.suits[i].WriteToArray(savebuffer) == 1);
+            REQUIRE(game.suits[i].ReadFromArray(savebuffer) == 1);
+        }
+
+        for (int i = 0; i < COLUMN_COUNT; i++)
+        {
+            // header length 2 + `i` unrevealed cards + 1 revealed card
+            const int count = 2 + i + 1;
+            REQUIRE(game.columns[i].WriteToArray(savebuffer) == count);
+            REQUIRE(game.columns[i].ReadFromArray(savebuffer) == count);
+        }
+
+        REQUIRE(game.WriteToArray(savebuffer) == SAVESTATE_LEN);
+        REQUIRE(game.ReadFromArray(savebuffer) == SAVESTATE_LEN);
     }
 }

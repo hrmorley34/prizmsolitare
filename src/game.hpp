@@ -2,6 +2,7 @@
 #include "cardll.hpp"
 #include "cardcolumn.hpp"
 #include "cardselection.hpp"
+#include "savedata.hpp"
 
 #ifndef GAME_H
 #define GAME_H
@@ -245,6 +246,54 @@ public:
         }
         // if (src.col < 0 || src.col >= COLUMN_COUNT)
         return false;
+    }
+
+    int WriteToArray(SaveData *const arr) const
+    {
+        arr->value = SUIT_COUNT;
+        (arr + 1)->value = COLUMN_COUNT;
+        int length = 2;
+        length += pile.WriteToArray(arr + length);
+        length += pilediscard.WriteToArray(arr + length);
+        for (int i = 0; i < SUIT_COUNT; i++)
+        {
+            length += suits[i].WriteToArray(arr + length);
+        }
+        for (int i = 0; i < COLUMN_COUNT; i++)
+        {
+            length += columns[i].WriteToArray(arr + length);
+        }
+        return length;
+    }
+
+    int GetWriteLength() const
+    {
+        int length = 2;
+        length += pile.GetWriteLength();
+        length += pilediscard.GetWriteLength();
+        for (int i = 0; i < SUIT_COUNT; i++)
+            length += suits[i].GetWriteLength();
+        for (int i = 0; i < COLUMN_COUNT; i++)
+            length += columns[i].GetWriteLength();
+        return length;
+    }
+
+    int ReadFromArray(const SaveData *const arr)
+    {
+        if (arr->value != SUIT_COUNT || (arr + 1)->value != COLUMN_COUNT)
+            return -1;
+        int length = 2;
+        length += pile.ReadFromArray(arr + length);
+        length += pilediscard.ReadFromArray(arr + length);
+        for (int i = 0; i < SUIT_COUNT; i++)
+        {
+            length += suits[i].ReadFromArray(arr + length);
+        }
+        for (int i = 0; i < COLUMN_COUNT; i++)
+        {
+            length += columns[i].ReadFromArray(arr + length);
+        }
+        return length;
     }
 };
 

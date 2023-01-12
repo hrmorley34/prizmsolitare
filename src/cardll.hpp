@@ -3,6 +3,7 @@
 
 #include "card.hpp"
 #include "cardcollectionutils.hpp"
+#include "savedata.hpp"
 
 #ifndef CARDLL_H
 #define CARDLL_H
@@ -150,6 +151,51 @@ public:
 #endif
                 % (length - 1)));
         }
+    }
+
+    int WriteToArray(SaveData *arr) const
+    {
+        uint8_t *sizeloc = &arr->value;
+        *sizeloc = 0;
+        arr++;
+
+        CardLLPointer *p = head;
+        while (p != nullptr)
+        {
+            arr->card = p->card;
+            arr++;
+            (*sizeloc)++;
+            p = p->next;
+        }
+
+        return (*sizeloc) + 1;
+    }
+
+    int GetWriteLength() const
+    {
+        return length() + 1;
+    }
+
+    int ReadFromArray(const SaveData *arr)
+    {
+        uint8_t length = arr->value;
+        arr++;
+
+        CardLLPointer *p = head = tail = nullptr;
+        for (int i = 0; i < length; i++)
+        {
+            Card c = arr->card;
+            tail = &pointers[c.GetPIndex()];
+            *tail = CardLLPointer(c);
+            if (i == 0)
+                head = tail;
+            else
+                p->next = tail;
+            p = tail;
+            arr++;
+        }
+
+        return length + 1;
     }
 };
 
