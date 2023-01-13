@@ -1,9 +1,11 @@
 #include <fxcg/display.h>
 #include <fxcg/keyboard.h>
+#include <fxcg/system.h>
 #include <stdlib.h>
 #include <time.h>
 #include "game.hpp"
 #include "controls.hpp"
+#include "save.hpp"
 
 void setup()
 {
@@ -12,7 +14,22 @@ void setup()
     Bdisp_EnableColor(1);
     Bkey_SetAllFlags(0x80);    // disable shift+4 for catalog
     EnableDisplayHeader(0, 0); // disable status area
-    FrameColor(1, BackgroundColour);
+}
+
+Game g;
+Controls c = Controls(&g);
+
+void ResetGame()
+{
+    g = Game();
+    c = Controls(&g);
+}
+
+bool doSaveState;
+void OnClose()
+{
+    if (doSaveState)
+        SaveState(&g);
 }
 
 int main(void)
@@ -22,8 +39,10 @@ int main(void)
     setup();
 
     sys_srand(clock());
-    Game g = Game();
-    Controls c = Controls(&g);
+    ResetGame();
+    ReadState(&g);
+    SetQuitHandler(OnClose);
+    doSaveState = true;
 
     Bdisp_AllClr_VRAM();
     c.ClearScreen();
@@ -38,8 +57,7 @@ int main(void)
             setup();
             break;
         case KEY_CTRL_AC:
-            g = Game();
-            c = Controls(&g);
+            ResetGame();
             break;
         }
         c.HandleKey(key);
