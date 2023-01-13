@@ -38,6 +38,11 @@ bool SaveState(const Game *const g)
     return true;
 }
 
+bool DeleteState()
+{
+    return MCSDelVar2(StateFile) == 0;
+}
+
 bool ReadState(Game *const g)
 {
     int len;
