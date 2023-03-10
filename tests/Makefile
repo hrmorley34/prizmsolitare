@@ -15,9 +15,9 @@ $(BUILD_DIR)/catch.o: catch2/catch_amalgamated.cpp
 	$(CXX) -MMD -MP -MF $*.d $(CXXFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 ifeq ($(OS),Windows_NT)
-EXECUTABLE := test.exe
+EXECUTABLE := runtests.exe
 else
-EXECUTABLE := test
+EXECUTABLE := runtests
 endif
 
 SOURCES := .

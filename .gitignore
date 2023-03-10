@@ -2,6 +2,6 @@ build/
 *.bin
 *.g3a
 
-/tests/test
-/tests/test.exe
+/tests/runtests
+/tests/runtests.exe
 __pycache__
