@@ -1,0 +1,17 @@
+.PHONY: all g3a tests clean
+
+# OPTS := -j 4
+
+all: g3a tests
+
+g3a:
+	@echo "make g3a"
+	@$(MAKE) --no-print-directory -f Makefile $(OPTS)
+
+tests:
+	@echo "make tests"
+	@cd tests && $(MAKE) --no-print-directory test -f Makefile $(OPTS)
+
+clean:
+	@$(MAKE) --no-print-directory clean -f Makefile $(OPTS)
+	@cd tests && $(MAKE) --no-print-directory clean -f Makefile $(OPTS)
