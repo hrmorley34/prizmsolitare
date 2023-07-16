@@ -21,16 +21,9 @@ public:
     int depth;
 
     CardSelection()
-    {
-        col = 0;
-        depth = 0;
-    }
-
+        : col(0), depth(0) {}
     CardSelection(const int col, const int depth)
-    {
-        this->col = col;
-        this->depth = depth;
-    }
+        : col(col), depth(depth) {}
 };
 
 #define SUIT_COLUMN(suit) (-SUIT_COUNT + suit)

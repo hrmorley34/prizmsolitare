@@ -1,17 +1,16 @@
 #include <stdlib.h>
 #include "card.hpp"
 
-#ifndef CARDCOLLECTIONUTILS_H
-#define CARDCOLLECTIONUTILS_H
+#ifndef CARDLLPOINTER_H
+#define CARDLLPOINTER_H
 
 struct CardLLPointer
 {
 public:
-    Card card;
+    Card card = Card();
     CardLLPointer *next = nullptr;
 
-    CardLLPointer() {}
-    CardLLPointer(const Card card, CardLLPointer *next = nullptr)
+    CardLLPointer(const Card card = Card(), CardLLPointer *next = nullptr)
         : card(card), next(next) {}
 };
 
@@ -27,7 +26,7 @@ public:
 //     }
 // }
 
-CardLLPointer *GetAtIndex(CardLLPointer *p, const int index)
+inline CardLLPointer *GetAtIndex(CardLLPointer *p, const int index)
 {
     for (int i = 0; i < index && p != nullptr; i++)
     {

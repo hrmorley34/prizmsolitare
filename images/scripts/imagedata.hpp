@@ -1,8 +1,8 @@
 #include "../imageclasses.hpp"
 #include "../card.hpp"
 
-#ifndef IMAGEDATA_H
-#define IMAGEDATA_H
+#ifndef GEN_IMAGEDATA_H
+#define GEN_IMAGEDATA_H
 
 #pragma region IMAGEDATA
 const Image CardImage;

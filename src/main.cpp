@@ -6,6 +6,7 @@
 #include "game.hpp"
 #include "controls.hpp"
 #include "save.hpp"
+#include "imageclasses.hpp"
 
 void setup()
 {

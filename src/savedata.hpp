@@ -10,7 +10,7 @@ public:
     uint8_t value;
     Card card;
 
-    SaveData() { value = 0; }
+    SaveData();
 };
 
 #endif
